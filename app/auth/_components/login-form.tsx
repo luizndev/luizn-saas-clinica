@@ -108,11 +108,7 @@ const LoginForm = () => {
               )}
             />
             
-            <Button type="submit" className="w-full">Login</Button>
-            
-            <p className="text-center text-sm text-muted-foreground">
-              Não tem uma conta? <a href="#" className="underline underline-offset-4 hover:text-primary">Registrar</a>
-            </p>
+            <Button type="submit" className="w-full">Entrar</Button>
           </form>
         </Form>
       </CardContent>

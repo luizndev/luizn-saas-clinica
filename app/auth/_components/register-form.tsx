@@ -104,10 +104,6 @@ const registerForm = () => {
             />
             
             <Button type="submit" className="w-full">Registrar</Button>
-            
-            <p className="text-center text-sm text-muted-foreground">
-              Já tem uma conta? <a href="#" className="underline underline-offset-4 hover:text-primary">Login</a>
-            </p>
           </form>
         </Form>
       </CardContent>
