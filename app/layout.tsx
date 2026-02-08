@@ -2,7 +2,9 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { headers } from "next/headers";
 
+import { AuthGuard } from "@/components/auth-guard";
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
@@ -20,17 +22,22 @@ export const metadata: Metadata = {
   description: "AgendaFácil",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") || "/";
+
   return (
     <html lang="pt-br">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <AuthGuard currentPath={pathname}>
+          {children}
+        </AuthGuard>
         <Toaster richColors theme="light" />
       </body>
     </html>
