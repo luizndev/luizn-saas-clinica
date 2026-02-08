@@ -13,6 +13,7 @@ const DashboardPage = async () => {
         headers: await headers(),
     });
 
+    console.log(session);
     if (!session?.user?.id) {
         redirect('/auth');
     }
