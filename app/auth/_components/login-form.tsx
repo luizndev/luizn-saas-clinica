@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import z from 'zod';
@@ -11,7 +12,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { useLogin } from '@/services/use-login';
-import { Loader2 } from 'lucide-react';
 
 const loginSchema = z.object({
   email: z.string().trim().min(1, {message: "Email é obrigatório"}).email({message: "Email inválido"}),
