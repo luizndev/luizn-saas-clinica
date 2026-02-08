@@ -11,24 +11,16 @@ import RegisterForm from './_components/register-form';
 const page = () => {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="bg-muted relative hidden lg:block">
+      <div className="bg-primary relative flex items-center justify-center">
         <Image
-          src="/auth-background.webp"
+          src="/agendafacil-white.svg"
           alt="Authentication background"
-          fill
-          className="object-cover dark:brightness-[0.2] dark:grayscale"
-          priority
+          width={350}
+          height={350}
+          className="dark:brightness-[0.2] dark:grayscale"
         />
       </div>
       <div className="flex flex-col gap-4 p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-              <CalendarDays className="size-4" />
-            </div>
-            AgendaFácil
-          </a>
-        </div>
         <div className="flex flex-1 items-center justify-center">
           <Tabs defaultValue="account" className="w-[400px]">
             <TabsList>

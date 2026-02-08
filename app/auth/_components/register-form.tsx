@@ -1,6 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 import z from 'zod';
@@ -9,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { authClient } from '@/lib/auth-client';
 
 const registerSchema = z.object({
   username: z.string().trim().min(3, "Usuario deve ter pelo menos 3 caracteres"),
@@ -21,6 +24,7 @@ const registerSchema = z.object({
 });
 
 const registerForm = () => {
+    const router = useRouter();
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -32,8 +36,21 @@ const registerForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof registerSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof registerSchema>) {
+    await authClient.signUp.email({
+      email: values.email,
+      password: values.password,
+      name: values.username,    
+      callbackURL: "/dashboard",
+    }, {
+        onSuccess: () => {
+            form.reset();
+            router.push("/dashboard");
+        },
+        onError: (error) => {
+            console.error(error);
+        }
+    })
   }
 
   return (
@@ -103,7 +120,9 @@ const registerForm = () => {
               )}
             />
             
-            <Button type="submit" className="w-full">Registrar</Button>
+            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting ? (<Loader2 className="mr-2 h-4 w-4 animate-spin" />) : "Criar conta"}
+            </Button>
           </form>
         </Form>
       </CardContent>
