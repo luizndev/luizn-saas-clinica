@@ -10,6 +10,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { useLogin } from '@/services/use-login';
+import { Loader2 } from 'lucide-react';
 
 const loginSchema = z.object({
   email: z.string().trim().min(1, {message: "Email é obrigatório"}).email({message: "Email inválido"}),
@@ -25,9 +27,12 @@ const LoginForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log(values);
+  const { login } = useLogin(form);
+
+  async function onSubmit(values: z.infer<typeof loginSchema>) {
+    await login(values);
   }
+
 
   return (
     <Card>
@@ -108,7 +113,9 @@ const LoginForm = () => {
               )}
             />
             
-            <Button type="submit" className="w-full">Entrar</Button>
+            <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+              {form.formState.isSubmitting ? (<Loader2 className="mr-2 h-4 w-4 animate-spin" />) : "Entrar"}
+            </Button>
           </form>
         </Form>
       </CardContent>
