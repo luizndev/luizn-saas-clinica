@@ -63,7 +63,6 @@ const formSchema = z.object({
   path: ['availableToTime'],
 })
 
-/* ================== PROPS ================== */
 interface UpsertDoctorFormProps {
   doctor?: Doctor
   onSuccess?: () => void
@@ -72,6 +71,7 @@ interface UpsertDoctorFormProps {
 
 const UpsertDoctor = ({ doctor, onSuccess, onError }: UpsertDoctorFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
+    shouldUnregister: true,
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: doctor?.name ?? '',

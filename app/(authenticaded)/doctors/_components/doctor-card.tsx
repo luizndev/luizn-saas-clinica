@@ -1,5 +1,5 @@
 "use client"
-import { CalendarIcon, ClockIcon, DollarSignIcon, Stethoscope } from 'lucide-react'
+import { CalendarIcon, ClockIcon, DollarSignIcon, Stethoscope, TrashIcon } from 'lucide-react'
 import React, { useState } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -15,11 +15,40 @@ import UpsertDoctor from './upsert-doctor'
 
 interface DoctorCardProps {
     doctor: typeof doctorsTable.$inferSelect
+    onDragStart?: () => void
+    onDragEnd?: () => void
 }
 
-const DoctorCard = ({ doctor }: DoctorCardProps) => {
+const DoctorCard = ({ doctor, onDragStart: onDragStartProp, onDragEnd: onDragEndProp }: DoctorCardProps) => {
     const [isEditing, setIsEditing] = useState(false)
+    const [isDragging, setIsDragging] = useState(false)
+
+    function handleDragStart(e: React.DragEvent) {
+        setIsDragging(true)
+        onDragStartProp?.()
+        e.dataTransfer.setData(
+            'application/json',
+            JSON.stringify({
+                id: doctor.id,
+                name: doctor.name,
+            })
+        )
+    }
+
+    function handleDragEnd() {
+        setIsDragging(false)
+        onDragEndProp?.()
+    }
+
   return (
+    <div
+        draggable
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        className={`cursor-grab active:cursor-grabbing transition-opacity ${
+            isDragging ? 'opacity-50' : 'opacity-100'
+        }`}
+    >
     <Card className='w-full'>
         <CardHeader>
             <div className='flex items-center gap-2'>
@@ -60,6 +89,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
         </CardFooter>
 
     </Card>
+    </div>
   )
 }
 
