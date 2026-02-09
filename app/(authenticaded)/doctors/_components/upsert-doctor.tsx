@@ -1,61 +1,109 @@
 "use client"
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Loader2 } from 'lucide-react'
+import { useAction } from 'next-safe-action/hooks'
 import { useForm } from 'react-hook-form'
-import { NumericFormat } from 'react-number-format';
+import { NumericFormat } from 'react-number-format'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
-import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import {
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { upsertDoctor } from '@/services/upsert-doctor'
 
 import { medicalSpecialties } from '../_constants'
 
 const weekDays = [
-    { value: "0", label: 'Domingo' },
-    { value: "1", label: 'Segunda-feira' },
-    { value: "2", label: 'Terça-feira' },
-    { value: "3", label: 'Quarta-feira' },
-    { value: "4", label: 'Quinta-feira' },
-    { value: "5", label: 'Sexta-feira' },
-    { value: "6", label: 'Sábado' },
+  { value: "0", label: 'Domingo' },
+  { value: "1", label: 'Segunda-feira' },
+  { value: "2", label: 'Terça-feira' },
+  { value: "3", label: 'Quarta-feira' },
+  { value: "4", label: 'Quinta-feira' },
+  { value: "5", label: 'Sexta-feira' },
+  { value: "6", label: 'Sábado' },
 ]
 
 const formSchema = z.object({
-    name: z.string().trim().min(3, 'Nome deve ter pelo menos 3 caracteres').max(100),
-    specialty: z.string().trim().min(3).max(100),
-    avatarImageUrl: z.string().url('URL inválida').optional().or(z.literal("")),
-    availableFromWeekDay: z.string(),
-    availableToWeekDay: z.string(),
-    availableFromTime: z.string().regex(/^\d{2}:\d{2}(:\d{2})?$/, 'Formato de hora inválido'),
-    availableToTime: z.string().regex(/^\d{2}:\d{2}(:\d{2})?$/, 'Formato de hora inválido'),
-    appointmentPriceInCents: z.number().min(0, 'Preço deve ser maior que 0'),
+  name: z.string().trim().min(3, 'Nome deve ter pelo menos 3 caracteres').max(100),
+  specialty: z.string().trim().min(3).max(100),
+  avatarImageUrl: z.string().url('URL inválida').optional().or(z.literal("")),
+  availableFromWeekDay: z.string(),
+  availableToWeekDay: z.string(),
+  availableFromTime: z.string().regex(/^\d{2}:\d{2}(:\d{2})?$/, 'Formato de hora inválido'),
+  availableToTime: z.string().regex(/^\d{2}:\d{2}(:\d{2})?$/, 'Formato de hora inválido'),
+  appointmentPriceInCents: z.number().min(0, 'Preço deve ser maior que 0'),
 }).refine((data) => {
-    return data.availableToTime > data.availableFromTime;
+  return data.availableToTime > data.availableFromTime
 }, {
-    message: 'O Horario de inicio não pode ser anterior ao horario de termino',
-    path: ['availableToTime'],
+  message: 'O horário final deve ser após o horário inicial',
+  path: ['availableToTime'],
 })
 
-const UpsertDoctor = () => {
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            name: '',
-            specialty: '',
-            avatarImageUrl: '',
-            availableFromWeekDay: "1",
-            availableToWeekDay: "5",
-            availableFromTime: '08:00',
-            availableToTime: '18:00',
-            appointmentPriceInCents: 0,
-        },
-    })
+/* ================== PROPS ================== */
+interface UpsertDoctorFormProps {
+  onSuccess?: () => void
+  onError?: (error: Error) => void
+}
 
-    const onSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log(data)
-    }
+const UpsertDoctor = ({ onSuccess, onError }: UpsertDoctorFormProps) => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      specialty: '',
+      avatarImageUrl: '',
+      availableFromWeekDay: "1",
+      availableToWeekDay: "5",
+      availableFromTime: '08:00',
+      availableToTime: '18:00',
+      appointmentPriceInCents: 0,
+    },
+  })
+
+  const upsertDoctorAction = useAction(upsertDoctor, {
+    onSuccess() {
+      form.reset()
+      onSuccess?.()
+      toast.success('Médico adicionado com sucesso')
+    },
+    onError(error) {
+      console.log(error)
+      onError?.(error)
+      toast.error('Erro ao adicionar médico')
+    },
+  })
+
+  const onSubmit = (data: z.infer<typeof formSchema>) => {
+    upsertDoctorAction.execute({
+      ...data,
+      availableFromWeekDay: parseInt(data.availableFromWeekDay),
+      availableToWeekDay: parseInt(data.availableToWeekDay),
+      appointmentPriceInCents: data.appointmentPriceInCents * 100,
+    })
+  }
 
     return (
         <DialogContent>
@@ -343,10 +391,20 @@ const UpsertDoctor = () => {
                             )}
                         />
                     </div>
-
-
-
-                    <Button type='submit'>Adicionar</Button>
+                    <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={upsertDoctorAction.isPending}
+                    >
+                    {upsertDoctorAction.isPending ? (
+                        <>
+                        <Loader2 className="mr-2 animate-spin" />
+                        Adicionando...
+                        </>
+                    ) : (
+                        "Adicionar"
+                    )}
+                    </Button>
                 </form>
             </Form>
         </DialogContent>
