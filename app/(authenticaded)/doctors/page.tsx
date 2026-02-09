@@ -1,7 +1,6 @@
-import React from 'react'
-
-import { Button } from '@/components/ui/button'
 import { PageActions, PageContainer, PageContent, PageDescription,PageHeader, PageHeaderContent, PageTitle } from '@/components/ui/page-container'
+
+import AddDoctorButton from './_components/add-doctor-button'
 
 const DoctorsPage = () => {
   return (
@@ -12,7 +11,7 @@ const DoctorsPage = () => {
           <PageDescription>Gerencie os médicos da sua clínica</PageDescription>
         </PageHeaderContent>
         <PageActions>
-          <Button>Adicionar médico</Button>
+          <AddDoctorButton />
         </PageActions>
       </PageHeader>
       <PageContent>

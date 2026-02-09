@@ -1,12 +1,12 @@
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
+import { PageActions, PageContainer, PageContent, PageDescription,PageHeader, PageHeaderContent, PageTitle } from "@/components/ui/page-container";
 import { db } from "@/db";
-import { clinicsTable, usersToClinicsTable } from "@/db/schema";
+import { usersToClinicsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
-
 
 const DashboardPage = async () => {
     const session = await auth.api.getSession({
@@ -29,9 +29,20 @@ const DashboardPage = async () => {
     }
 
   return (
-    <div className="p-8">
-       
-    </div>
+    <PageContainer>
+        <PageHeader>
+        <PageHeaderContent>
+            <PageTitle>Dashboard</PageTitle>
+            <PageDescription>Visão geral da sua clínica</PageDescription>
+        </PageHeaderContent>
+        <PageActions>
+            <Button>Adicionar médico</Button>
+        </PageActions>
+        </PageHeader>
+        <PageContent>
+        <p>Médicos</p>
+        </PageContent>
+    </PageContainer>
   )
 }
 
