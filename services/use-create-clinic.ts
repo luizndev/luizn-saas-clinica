@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -23,4 +24,5 @@ export const createClinic = async (name: string) => {
         clinicId,
     });
     redirect('/dashboard');
+    revalidatePath('/dashboard')
 }
