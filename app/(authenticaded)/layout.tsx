@@ -27,7 +27,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
   return (
     <SidebarProvider>
       <AppSidebar user={user} clinic={clinic} />
-      <main>
+      <main className="w-full">
         <SidebarTrigger />
         {children}
       </main>
