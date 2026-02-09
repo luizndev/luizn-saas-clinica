@@ -1,5 +1,6 @@
+"use client"
 import { CalendarIcon, ClockIcon, DollarSignIcon, Stethoscope } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
@@ -17,6 +18,7 @@ interface DoctorCardProps {
 }
 
 const DoctorCard = ({ doctor }: DoctorCardProps) => {
+    const [isEditing, setIsEditing] = useState(false)
   return (
     <Card className='w-full'>
         <CardHeader>
@@ -47,13 +49,13 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
         </CardContent>
         <Separator />
         <CardFooter>
-            <Dialog>
+            <Dialog open={isEditing} onOpenChange={setIsEditing}>
                 <DialogTrigger asChild>
                     <Button className='w-full'>
                         Ver Detalhes
                     </Button>
                 </DialogTrigger>
-                <UpsertDoctor />
+                <UpsertDoctor doctor={doctor} onSuccess={() => setIsEditing(false)} />
             </Dialog>
         </CardFooter>
 

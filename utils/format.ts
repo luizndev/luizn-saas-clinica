@@ -1,9 +1,35 @@
 import dayjs from "dayjs"
+import timezone from "dayjs/plugin/timezone"
+import utc from "dayjs/plugin/utc"
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 export const formatTime = (time: string) => {
     if (!time) return ""
+
     const [hours, minutes, seconds] = time.split(":").map(Number)
-    return dayjs().set('hour', hours).set('minute', minutes).set('second', seconds).format("HH:mm")
+
+    const utcTime = dayjs
+        .utc()
+        .set("hour", hours)
+        .set("minute", minutes)
+        .set("second", seconds)
+
+    return utcTime.local().format("HH:mm")
+}
+export const formatTime2 = (time: string) => {
+    if (!time) return ""
+
+    const [hours, minutes, seconds] = time.split(":").map(Number)
+
+    const utcTime = dayjs
+        .utc()
+        .set("hour", hours)
+        .set("minute", minutes)
+        .set("second", seconds)
+
+    return utcTime.local().format("HH:mm:ss")
 }
 
 export const formatCurrency = (amount: number) => {
