@@ -63,14 +63,7 @@ interface AppointmentsTableProps {
   patients: Patient[]
 }
 
-const getStatusData = (status: string) => {
-  const statusData = {
-    pending: { label: 'Pendente', variant: 'destructive' as const },
-    confirmed: { label: 'Confirmado', variant: 'outline' as const },
-    completed: { label: 'Concluído', variant: 'default' as const },
-  }
-  return statusData[status as keyof typeof statusData] || { label: status, variant: 'outline' as const }
-}
+
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -162,7 +155,6 @@ export const AppointmentsTable = ({ appointments, doctors, patients }: Appointme
               </TableRow>
             ) : (
               appointments.map((appointment) => {
-                const statusData = getStatusData(appointment.status)
                 return (
                   <TableRow key={appointment.id} className='hover:bg-muted/50 transition-colors'>
                     <TableCell className="font-medium">
@@ -184,8 +176,28 @@ export const AppointmentsTable = ({ appointments, doctors, patients }: Appointme
                       }).format(appointment.appointmentPriceInCents / 100)}
                     </TableCell>
                     <TableCell>
-                      <Badge variant={statusData.variant} className='w-fit'>
-                        {statusData.label}
+                      <Badge
+                        variant="outline"
+                        className={`flex w-fit items-center gap-2 border-none px-2.5 py-0.5 text-xs font-semibold shadow-none ${
+                            appointment.status === "confirmed"
+                            ? "bg-emerald-500/10 text-emerald-500"
+                            : appointment.status === "completed"
+                              ? "bg-blue-500/10 text-blue-500"
+                              : "bg-gray-100 text-gray-500"
+                        }`}
+                      >
+                        <div className={`h-1.5 w-1.5 rounded-full ${
+                            appointment.status === "confirmed"
+                            ? "bg-emerald-500"
+                            : appointment.status === "completed"
+                              ? "bg-blue-500"
+                              : "bg-gray-500"
+                        }`} />
+                        {appointment.status === "confirmed"
+                          ? "Confirmado"
+                          : appointment.status === "completed"
+                            ? "Concluído"
+                            : "Pendente"}
                       </Badge>
                     </TableCell>
                     <TableCell>
