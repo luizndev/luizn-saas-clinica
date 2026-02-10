@@ -1,0 +1,30 @@
+  // Generate available time slots based on doctor's availability
+  const availableTimeSlots = useMemo(() => {
+    if (!selectedDoctor) return undefined
+
+    const slots: string[] = []
+    const fromTime = selectedDoctor.availableFromTime // e.g., "08:00:00" stored in database
+    const toTime = selectedDoctor.availableToTime // e.g., "15:00:00" stored in database
+
+    // Parse the time strings
+    const [fromHour, fromMinute] = fromTime.split(':').map(Number)
+    const [toHour, toMinute] = toTime.split(':').map(Number)
+
+    // Note: Times are stored as they are (local time), no conversion needed
+    // The database stores "08:00:00" meaning 8 AM local time
+    let currentHour = fromHour
+    let currentMinute = fromMinute
+
+    while (currentHour < toHour || (currentHour === toHour && currentMinute < toMinute)) {
+      slots.push(`${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`)
+      
+      // Increment by 30 minutes
+      currentMinute += 30
+      if (currentMinute >= 60) {
+        currentMinute = 0
+        currentHour += 1
+      }
+    }
+
+    return slots
+  }, [selectedDoctor])

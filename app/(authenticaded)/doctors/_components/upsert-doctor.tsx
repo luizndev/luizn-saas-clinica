@@ -2,6 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Loader2 } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { NumericFormat } from 'react-number-format'
 import { toast } from 'sonner'
@@ -67,9 +68,10 @@ interface UpsertDoctorFormProps {
   doctor?: Doctor
   onSuccess?: () => void
   onError?: (error: Error) => void
+  isOpen?: boolean
 }
 
-const UpsertDoctor = ({ doctor, onSuccess, onError }: UpsertDoctorFormProps) => {
+const UpsertDoctor = ({ doctor, onSuccess, onError, isOpen }: UpsertDoctorFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     shouldUnregister: true,
     resolver: zodResolver(formSchema),
@@ -84,6 +86,21 @@ const UpsertDoctor = ({ doctor, onSuccess, onError }: UpsertDoctorFormProps) => 
       appointmentPriceInCents: (doctor?.appointmentPriceInCents ?? 0) / 100,
     },
   })
+
+  useEffect(() => {
+    if (isOpen) {
+      form.reset({
+        name: doctor?.name ?? '',
+        specialty: doctor?.specialty ?? '',
+        avatarImageUrl: doctor?.avatarImageUrl ?? '',
+        availableFromWeekDay: doctor?.availableFromWeekDay.toString() ?? "1",
+        availableToWeekDay: doctor?.availableToWeekDay.toString() ?? "5",
+        availableFromTime: formatTime2(doctor?.availableFromTime) ?? '',
+        availableToTime: formatTime2(doctor?.availableToTime) ?? '',
+        appointmentPriceInCents: (doctor?.appointmentPriceInCents ?? 0) / 100,
+      })
+    }
+  }, [isOpen, doctor, form])
 
   const upsertDoctorAction = useAction(upsertDoctor, {
     onSuccess() {
@@ -104,7 +121,7 @@ const UpsertDoctor = ({ doctor, onSuccess, onError }: UpsertDoctorFormProps) => 
       id: doctor?.id,
       availableFromWeekDay: parseInt(data.availableFromWeekDay),
       availableToWeekDay: parseInt(data.availableToWeekDay),
-      appointmentPriceInCents: data.appointmentPriceInCents * 100,
+      appointmentPriceInCents: data.appointmentPriceInCents,
     })
   }
 

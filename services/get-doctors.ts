@@ -1,13 +1,13 @@
+"use server"
+
 import { eq } from "drizzle-orm"
 import { headers } from "next/headers"
-import { z } from "zod"
 
 import { db } from "@/db"
 import { doctorsTable } from "@/db/schema"
 import { auth } from "@/lib/auth"
-import { actionClient } from "@/lib/safe-action"
 
-export const getDoctors = actionClient.schema(z.object({})).action(async () => {
+export const getDoctors = async () => {
     const session = await auth.api.getSession({
         headers: await headers(),
     })
@@ -18,7 +18,14 @@ export const getDoctors = actionClient.schema(z.object({})).action(async () => {
 
     const { clinic } = session.user
 
-    const doctors = await db.select().from(doctorsTable).where(eq(doctorsTable.clinicId, clinic.id))
-
-    return doctors
-})
+    return await db.select({
+        id: doctorsTable.id,
+        name: doctorsTable.name,
+        specialty: doctorsTable.specialty,
+        appointmentPriceInCents: doctorsTable.appointmentPriceInCents,
+        availableFromTime: doctorsTable.availableFromTime,
+        availableToTime: doctorsTable.availableToTime,
+        availableFromWeekDay: doctorsTable.availableFromWeekDay,
+        availableToWeekDay: doctorsTable.availableToWeekDay,
+    }).from(doctorsTable).where(eq(doctorsTable.clinicId, clinic.id))
+}

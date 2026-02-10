@@ -1,9 +1,18 @@
 import React from 'react'
 
-import { Button } from '@/components/ui/button'
-import { PageActions, PageContainer, PageContent, PageDescription,PageHeader, PageHeaderContent, PageTitle } from '@/components/ui/page-container'
+import { PageActions, PageContainer, PageContent, PageDescription, PageHeader, PageHeaderContent, PageTitle } from '@/components/ui/page-container'
+import { getAppointments } from '@/services/get-appointments'
+import { getDoctors } from '@/services/get-doctors'
+import { getPatients } from '@/services/get-patients'
 
-const AppointmentsPage = () => {
+import { AddAppointmentButton } from './_components/add-appointment-button'
+import { AppointmentsTable } from './_components/appointments-table'
+
+const AppointmentsPage = async () => {
+  const appointments = await getAppointments()
+  const doctors = await getDoctors()
+  const patients = await getPatients()
+
   return (
     <PageContainer>
       <PageHeader>
@@ -12,11 +21,11 @@ const AppointmentsPage = () => {
           <PageDescription>Gerencie os agendamentos da sua clínica</PageDescription>
         </PageHeaderContent>
         <PageActions>
-          <Button>Adicionar agendamento</Button>
+          <AddAppointmentButton doctors={doctors} patients={patients} />
         </PageActions>
       </PageHeader>
       <PageContent>
-        <p>Agendamentos</p>
+        <AppointmentsTable appointments={appointments} doctors={doctors} patients={patients} />
       </PageContent>
     </PageContainer>
   )

@@ -52,3 +52,8 @@ export const formatWeekDay = (day: number) => {
 
   return days[day] ?? ""
 }
+
+
+export const formatPrice = (price: number) => {
+    return price / 100
+}

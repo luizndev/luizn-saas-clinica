@@ -1,9 +1,14 @@
 import React from 'react'
 
-import { Button } from '@/components/ui/button'
-import { PageActions, PageContainer, PageContent, PageDescription,PageHeader, PageHeaderContent, PageTitle } from '@/components/ui/page-container'
+import { PageActions, PageContainer, PageContent, PageDescription, PageHeader, PageHeaderContent, PageTitle } from '@/components/ui/page-container'
+import { getPatients } from '@/services/get-patients'
 
-const PatientsPage = () => {
+import { AddPatientButton } from './_components/add-patient-button'
+import { PatientsTable } from './_components/patients-table'
+
+const PatientsPage = async () => {
+  const patients = await getPatients()
+
   return (
     <PageContainer>
       <PageHeader>
@@ -12,11 +17,11 @@ const PatientsPage = () => {
           <PageDescription>Gerencie os pacientes da sua clínica</PageDescription>
         </PageHeaderContent>
         <PageActions>
-          <Button>Adicionar paciente</Button>
+          <AddPatientButton />
         </PageActions>
       </PageHeader>
       <PageContent>
-        <p>Pacientes</p>
+        <PatientsTable patients={patients} />
       </PageContent>
     </PageContainer>
   )

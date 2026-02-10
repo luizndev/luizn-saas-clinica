@@ -45,8 +45,8 @@ const DoctorCard = ({ doctor, onDragStart: onDragStartProp, onDragEnd: onDragEnd
         draggable
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
-        className={`cursor-grab active:cursor-grabbing transition-opacity ${
-            isDragging ? 'opacity-50' : 'opacity-100'
+        className={`transition-opacity ${
+            isDragging ? 'opacity-50 cursor-grabbing' : 'opacity-100 cursor-grab'
         }`}
     >
     <Card className='w-full'>
@@ -61,7 +61,9 @@ const DoctorCard = ({ doctor, onDragStart: onDragStartProp, onDragEnd: onDragEnd
                 </div>
             </div>
         </CardHeader>
-        <Separator />
+        <div className='px-7'>
+            <Separator  />
+        </div>
         <CardContent className='flex flex-col gap-2'>
             <Badge variant="outline">
                 <CalendarIcon className='mr-1'/>
@@ -73,10 +75,12 @@ const DoctorCard = ({ doctor, onDragStart: onDragStartProp, onDragEnd: onDragEnd
             </Badge>
             <Badge variant="outline">
                 <DollarSignIcon className='mr-1'/>
-                {formatCurrency(doctor.appointmentPriceInCents / 10000)}
+                {formatCurrency(doctor.appointmentPriceInCents / 100)}
             </Badge>
         </CardContent>
-        <Separator />
+        <div className='px-7'>
+            <Separator  />
+        </div>
         <CardFooter>
             <Dialog open={isEditing} onOpenChange={setIsEditing}>
                 <DialogTrigger asChild>
@@ -84,7 +88,7 @@ const DoctorCard = ({ doctor, onDragStart: onDragStartProp, onDragEnd: onDragEnd
                         Ver Detalhes
                     </Button>
                 </DialogTrigger>
-                <UpsertDoctor doctor={doctor} onSuccess={() => setIsEditing(false)} />
+                <UpsertDoctor doctor={doctor} isOpen={isEditing} onSuccess={() => setIsEditing(false)} />
             </Dialog>
         </CardFooter>
 
