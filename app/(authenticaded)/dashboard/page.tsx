@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { useQueryStates } from "nuqs";
 
 import { Button } from "@/components/ui/button";
 import { PageActions, PageContainer, PageContent, PageDescription,PageHeader, PageHeaderContent, PageTitle } from "@/components/ui/page-container";
@@ -8,7 +9,11 @@ import { db } from "@/db";
 import { usersToClinicsTable } from "@/db/schema";
 import { auth } from "@/lib/auth";
 
+import { DatePicker } from "./_components/data-picker";
+
 const DashboardPage = async () => {
+
+
     const session = await auth.api.getSession({
         headers: await headers(),
     });
@@ -36,7 +41,7 @@ const DashboardPage = async () => {
             <PageDescription>Visão geral da sua clínica</PageDescription>
         </PageHeaderContent>
         <PageActions>
-            <Button>Adicionar médico</Button>
+            <DatePicker />
         </PageActions>
         </PageHeader>
         <PageContent>

@@ -1,19 +1,15 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Manrope } from "next/font/google";
 import { headers } from "next/headers";
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 import { AuthGuard } from "@/components/auth-guard";
 import { Toaster } from "@/components/ui/sonner";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
 });
 
@@ -33,10 +29,12 @@ export default async function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${manrope.variable} antialiased`}
       >
         <AuthGuard currentPath={pathname}>
-          {children}
+          <NuqsAdapter>
+            {children}
+          </NuqsAdapter>
         </AuthGuard>
         <Toaster richColors theme="light" />
       </body>
