@@ -33,10 +33,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { doctorsTable } from '@/db/schema'
 import { upsertDoctor } from '@/services/upsert-doctor'
 import { formatTime2 } from '@/utils/format'
 
 import { medicalSpecialties } from '../_constants'
+
+type Doctor = typeof doctorsTable.$inferSelect
 
 const weekDays = [
   { value: "0", label: 'Domingo' },
@@ -67,7 +70,7 @@ const formSchema = z.object({
 interface UpsertDoctorFormProps {
   doctor?: Doctor
   onSuccess?: () => void
-  onError?: (error: Error) => void
+  onError?: (error: unknown) => void
   isOpen?: boolean
 }
 

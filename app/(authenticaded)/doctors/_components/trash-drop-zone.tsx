@@ -3,7 +3,6 @@
 import { Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
-import { Button } from '@/components/ui/button';
 
 interface TrashDropZoneProps {
   onDropDoctor: (doctor: { id: string; name: string }) => void
@@ -24,21 +23,36 @@ export default function TrashDropZone({ onDropDoctor }: TrashDropZoneProps) {
   }
 
   return (
-    <Button
-      onDragOver={(e) => {
-        e.preventDefault()
-        setIsOver(true)
-      }}
-      onDragLeave={() => setIsOver(false)}
-      onDrop={handleDrop}
-      className={`flex items-center gap-2 px-4 py-2 border-dashed border transition-all duration-300
-        ${isOver ? 'bg-red-100 border-destructive scale-105' : 'bg-transparent border-border'}
+    <div
+      className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out
+        ${isOver ? 'scale-110' : 'scale-100'}
       `}
     >
-      <Trash2 className={`transition-colors ${isOver ? 'text-destructive' : 'text-muted-foreground'}`} />
-      <span className={`text-sm ${isOver ? 'text-destructive font-medium' : 'text-muted-foreground'}`}>
-        Arraste aqui para excluir
-      </span>
-    </Button>
+      <div
+        onDragOver={(e) => {
+          e.preventDefault()
+          setIsOver(true)
+        }}
+        onDragLeave={() => setIsOver(false)}
+        onDrop={handleDrop}
+        className={`flex flex-col items-center justify-center gap-2 px-10 py-6 rounded-2xl border-2 border-dashed transition-all duration-300 shadow-2xl backdrop-blur-md
+          ${isOver 
+            ? 'bg-destructive/20 border-destructive text-destructive' 
+            : 'bg-background/80 border-muted-foreground/30 text-muted-foreground'}
+        `}
+      >
+        <div className={`p-4 rounded-full transition-colors ${isOver ? 'bg-destructive text-white' : 'bg-muted/50'}`}>
+          <Trash2 className="h-8 w-8" />
+        </div>
+        <div className="text-center">
+          <p className={`text-lg font-bold ${isOver ? 'text-destructive' : 'text-foreground'}`}>
+            Solte para excluir
+          </p>
+          <p className="text-sm opacity-80">
+            {isOver ? 'Ação irreversível' : 'Arraste o médico aqui'}
+          </p>
+        </div>
+      </div>
+    </div>
   )
 }

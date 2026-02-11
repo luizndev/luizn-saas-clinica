@@ -61,7 +61,7 @@ export const auth = betterAuth({
       return {
         user: {
           ...user,
-          plan: user.plan || "free",
+          plan: (user as any).plan || "free",
           clinic: clinic?.clinicId
             ? {
                 id: clinic?.clinicId,

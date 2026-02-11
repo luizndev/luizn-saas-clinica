@@ -5,7 +5,7 @@ import utc from "dayjs/plugin/utc"
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
-export const formatTime = (time: string) => {
+export const formatTime = (time: string | null | undefined) => {
     if (!time) return ""
 
     const [hours, minutes, seconds] = time.split(":").map(Number)
@@ -18,7 +18,7 @@ export const formatTime = (time: string) => {
 
     return utcTime.local().format("HH:mm")
 }
-export const formatTime2 = (time: string) => {
+export const formatTime2 = (time: string | null | undefined) => {
     if (!time) return ""
 
     const [hours, minutes, seconds] = time.split(":").map(Number)

@@ -18,14 +18,5 @@ export const getDoctors = async () => {
 
     const { clinic } = session.user
 
-    return await db.select({
-        id: doctorsTable.id,
-        name: doctorsTable.name,
-        specialty: doctorsTable.specialty,
-        appointmentPriceInCents: doctorsTable.appointmentPriceInCents,
-        availableFromTime: doctorsTable.availableFromTime,
-        availableToTime: doctorsTable.availableToTime,
-        availableFromWeekDay: doctorsTable.availableFromWeekDay,
-        availableToWeekDay: doctorsTable.availableToWeekDay,
-    }).from(doctorsTable).where(eq(doctorsTable.clinicId, clinic.id))
+    return await db.select().from(doctorsTable).where(eq(doctorsTable.clinicId, clinic.id))
 }

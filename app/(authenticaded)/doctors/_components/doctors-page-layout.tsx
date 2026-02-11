@@ -43,7 +43,6 @@ export default function DoctorsPageLayout({ doctors }: DoctorsPageLayoutProps) {
           <PageDescription>Gerencie os médicos da sua clínica</PageDescription>
         </PageHeaderContent>
         <PageActions>
-          {isDragging && <TrashDropZone onDropDoctor={handleDrop} />}
           <AddDoctorButton />
         </PageActions>
       </PageHeader>
@@ -100,6 +99,8 @@ export default function DoctorsPageLayout({ doctors }: DoctorsPageLayoutProps) {
         open={!!doctorToDelete}
         onClose={() => setDoctorToDelete(null)}
       />
+
+      {isDragging && <TrashDropZone onDropDoctor={handleDrop} />}
     </PageContainer>
   )
 }

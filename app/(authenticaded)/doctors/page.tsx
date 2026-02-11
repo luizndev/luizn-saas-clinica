@@ -1,19 +1,9 @@
-import { eq } from 'drizzle-orm'
-import { headers } from 'next/headers'
-
-import { db } from '@/db'
-import { doctorsTable } from '@/db/schema'
-import { auth } from '@/lib/auth'
+import { getDoctors } from '@/services/get-doctors'
 
 import DoctorsPageLayout from './_components/doctors-page-layout'
 
 const DoctorsPage = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
-  const doctors = await db.query.doctorsTable.findMany({
-    where: eq(doctorsTable.clinicId, session?.user?.clinic?.id)
-  })
+  const doctors = await getDoctors()
   
   return <DoctorsPageLayout doctors={doctors} />
 }

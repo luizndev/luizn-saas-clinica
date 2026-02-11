@@ -50,6 +50,10 @@ interface Doctor {
   name: string
   specialty: string
   appointmentPriceInCents: number
+  availableFromTime: string
+  availableToTime: string
+  availableFromWeekDay: number
+  availableToWeekDay: number
 }
 
 interface Patient {

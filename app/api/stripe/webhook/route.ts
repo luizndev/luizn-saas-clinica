@@ -33,7 +33,7 @@ export const POST = async (request: Request) => {
        * Pagamento de fatura bem-sucedido
        */
       case "invoice.payment_succeeded": {
-        const invoice = event.data.object as Stripe.Invoice;
+        const invoice = event.data.object as any;
 
         const subscription = invoice.subscription as string;
         const customer = invoice.customer as string;
