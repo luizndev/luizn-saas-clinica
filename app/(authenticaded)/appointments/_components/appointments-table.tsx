@@ -214,7 +214,7 @@ export const AppointmentsTable = ({ appointments, doctors, patients }: Appointme
                           variant="ghost"
                           size="icon"
                           onClick={() => handleDeleteClick(appointment.id)}
-                          className='hover:bg-destructive/10 text-destructive'
+                          className='text-muted-foreground hover:bg-destructive/10'
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>

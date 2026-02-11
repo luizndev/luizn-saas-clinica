@@ -1,5 +1,7 @@
 import { PageContainer, PageContent, PageDescription,PageHeader, PageHeaderContent, PageTitle } from '@/components/ui/page-container'
 
+import { PricingCard } from './_components/subscription-plan'
+
 const PlansPage = () => {
   return (
     <PageContainer>
@@ -10,7 +12,7 @@ const PlansPage = () => {
         </PageHeaderContent>
       </PageHeader>
       <PageContent>
-        <p>Planos</p>
+        <PricingCard />
       </PageContent>
     </PageContainer>
   )

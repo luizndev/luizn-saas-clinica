@@ -10,6 +10,7 @@ import {
   LogOut,
   Sparkles,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import {
   Avatar,
@@ -44,7 +45,7 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
-    console.log(user)
+  const router = useRouter()
   const initials = user.name
     .split(' ')
     .map(n => n[0])
@@ -92,7 +93,7 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push("/plans")}>
                 <Gem />
                 Planos
               </DropdownMenuItem>
