@@ -4,6 +4,7 @@ import { PageActions, PageContainer, PageContent, PageDescription, PageHeader, P
 import { getPatients } from '@/services/get-patients'
 
 import { AddPatientButton } from './_components/add-patient-button'
+import { ExportPatientsButton } from './_components/export-patients-button'
 import { PatientsTable } from './_components/patients-table'
 
 const PatientsPage = async () => {
@@ -17,6 +18,7 @@ const PatientsPage = async () => {
           <PageDescription>Gerencie os pacientes da sua clínica</PageDescription>
         </PageHeaderContent>
         <PageActions>
+          <ExportPatientsButton patients={patients} />
           <AddPatientButton />
         </PageActions>
       </PageHeader>

@@ -33,9 +33,6 @@ export default async function LandingPage() {
                 <Link href="/auth">
                   <Button variant="outline">Entrar</Button>
                 </Link>
-                <Link href="/auth">
-                  <Button>Começar Grátis</Button>
-                </Link>
               </>
             )}
           </nav>
@@ -60,7 +57,7 @@ export default async function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/auth">
               <Button size="lg" className="text-lg px-8 py-6">
-                Comece Gratuitamente
+                Começar Já
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -428,7 +425,7 @@ export default async function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/auth">
               <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
-                Comece Agora Gratuitamente
+                Comece Agora
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

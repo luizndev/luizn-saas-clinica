@@ -1,6 +1,6 @@
 "use client"
 
-import { Download, Edit, Mail, Mars, Phone, User, Users, Users2, Venus } from 'lucide-react'
+import { Edit, Mail, Mars, Phone, User, Users, Users2, Venus } from 'lucide-react'
 import { useState } from 'react'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
@@ -38,8 +38,7 @@ const getSexData = (sex: string) => {
   }
   return sexData[sex as keyof typeof sexData] || { label: sex, variant: 'outline' as const, icon: Users2 }
 }
-
-const exportToCSV = (patients: Patient[]) => {
+export const exportToCSV = (patients: Patient[]) => {
   // Cabeçalhos do CSV
   const headers = ['Nome', 'E-mail', 'Telefone', 'Sexo']
   
@@ -90,19 +89,6 @@ export const PatientsTable = ({ patients }: PatientsTableProps) => {
   return (
     <>
       <div className="space-y-4">
-        <div className="flex justify-end">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => exportToCSV(patients)}
-            disabled={patients.length === 0}
-            className="gap-2"
-          >
-            <Download className="h-4 w-4" />
-            Exportar CSV
-          </Button>
-        </div>
-        
         <div className="rounded-md border">
         <Table className='border-0'>
           <TableHeader className='bg-primary/5'>
