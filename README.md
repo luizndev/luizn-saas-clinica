@@ -1,6 +1,7 @@
 # SaaS Clínica - Gestão Inteligente de Consultórios
 
-![SaaS Clínica Banner](https://images.unsplash.com/photo-1576091160550-217359f42f8c?q=80&w=2070&auto=format&fit=crop)
+<img width="1902" height="942" alt="{D86C145D-BE8D-49BC-8843-2EC575336D75}" src="https://github.com/user-attachments/assets/e15b809f-70fb-4623-b92b-f861611e81f8" />
+
 
 Sistema de gestão clínica moderno e dinâmico, projetado para automatizar o fluxo de agendamentos e gerenciamento de profissionais de saúde. Uma solução robusta, escalável e com foco em UX/UI premium.
 
