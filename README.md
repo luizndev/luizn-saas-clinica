@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SaaS Clínica - Gestão Inteligente de Consultórios
 
-## Getting Started
+![SaaS Clínica Banner](https://images.unsplash.com/photo-1576091160550-217359f42f8c?q=80&w=2070&auto=format&fit=crop)
 
-First, run the development server:
+Sistema de gestão clínica moderno e dinâmico, projetado para automatizar o fluxo de agendamentos e gerenciamento de profissionais de saúde. Uma solução robusta, escalável e com foco em UX/UI premium.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Dashboard Inteligente**: Visão geral de métricas, agendamentos recentes e gestão de desempenho.
+- **Controle Total de Consultas**: Sistema de agendamento com validação de disponibilidade e status em tempo real.
+- **Gestão de Médicos e Pacientes**: Cadastros completos com suporte a especialidades, planos de saúde e histórico.
+- **Interface Premium**: Experiência de usuário refinada com `shadcn/ui`, animações fluidas e suporte a drag-and-drop.
+- **Infraestrutura SaaS**: Suporte a multi-clínicas, autenticação segura e integração de pagamentos via Stripe.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 💻 Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+  <img src="https://img.shields.io/badge/Next.js%2015-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" />
+  <img src="https://img.shields.io/badge/React%2019-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
+  <img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/Drizzle_ORM-C5F74F?style=for-the-badge&logo=drizzle&logoColor=black" />
+  <img src="https://img.shields.io/badge/BetterAuth-000000?style=for-the-badge&logo=auth0&logoColor=white" />
+  <img src="https://img.shields.io/badge/Stripe-635BFF?style=for-the-badge&logo=stripe&logoColor=white" />
+  <img src="https://img.shields.io/badge/shadcn%2Fui-000000?style=for-the-badge&logo=shadcnui&logoColor=white" />
+</div>
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+### 🚀 Principais Tecnologias e Bibliotecas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework**: Next.js 15 (App Router)
+- **Estilização**: Tailwind CSS + shadcn/ui
+- **Validacão**: Zod + React Hook Form
+- **Persistência**: PostgreSQL via Drizzle ORM
+- **Autenticação**: BetterAuth com suporte a Google OAuth
+- **Pagamentos**: Stripe Subscriptions & Webhooks
+- **UI/UX**: Lucide React, Sonner (toasts), Framer Motion (animações)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+### 🛠️ Configuração Local
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1.  Clone o repositório
+2.  Instale as dependências: `yarn install`
+3.  Configure o arquivo `.env` com suas credenciais (DB, Stripe, Auth)
+4.  Execute as migrações: `npx drizzle-kit push`
+5.  Inicie o servidor: `yarn dev`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+_Desenvolvido com foco em alta performance e escalabilidade._
