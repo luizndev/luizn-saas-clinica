@@ -1,8 +1,35 @@
-import { PageContainer, PageContent, PageDescription,PageHeader, PageHeaderContent, PageTitle } from '@/components/ui/page-container'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+
+import {
+  PageContainer,
+  PageContent,
+  PageDescription,
+  PageHeader,
+  PageHeaderContent,
+  PageTitle,
+} from '@/components/ui/page-container'
+import { auth } from '@/lib/auth'
 
 import { PricingCard } from './_components/subscription-plan'
 
-const PlansPage = () => {
+const PlansPage = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  })
+
+  if (!session?.user) {
+    redirect('/auth')
+  }
+
+  const user = {
+    id: session.user.id,
+    name: session.user.name || "User",
+    email: session.user.email || "",
+    image: session.user.image || "",
+    plan: session.user.plan || "",
+  }
+
   return (
     <PageContainer>
       <PageHeader>
@@ -12,7 +39,7 @@ const PlansPage = () => {
         </PageHeaderContent>
       </PageHeader>
       <PageContent>
-        <PricingCard />
+        <PricingCard active={user.plan === "essential"} userEmail={user.email} />
       </PageContent>
     </PageContainer>
   )

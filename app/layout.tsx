@@ -3,10 +3,12 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Geist_Mono, Manrope } from "next/font/google";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 import { AuthGuard } from "@/components/auth-guard";
 import { Toaster } from "@/components/ui/sonner";
+import { auth } from "@/lib/auth";
 
 const manrope = Manrope({
   variable: "--font-manrope",

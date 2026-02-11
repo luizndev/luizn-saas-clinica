@@ -15,11 +15,16 @@ export default async function Layout({ children }: { children: React.ReactNode }
     redirect('/auth')
   }
 
+  if (session?.user.plan === "free") {
+    redirect('/subscription')
+  }
+
   const user = {
     id: session.user.id,
     name: session.user.name || "User",
     email: session.user.email || "",
     image: session.user.image || "",
+    plan: session.user.plan || "",
   }
 
   const clinic = session.user.clinic || null

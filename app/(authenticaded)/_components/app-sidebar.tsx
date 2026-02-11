@@ -68,6 +68,7 @@ export function AppSidebar({
     name: string
     email: string
     image: string
+    plan: string
   }
   clinic: {
     id: string
@@ -75,16 +76,15 @@ export function AppSidebar({
   } | null
 }) {
 
-    console.log("clinic", clinic)
     const teams = (clinic && clinic.id) ? [{
         name: clinic.name,
         logo: Building2,
-        plan: "Free",
+        plan: user.plan,
         id: clinic.id,
     }] : [{
         name: "Sem clínica",
         logo: Building2,
-        plan: "Free",
+        plan: user.plan,
         id: "",
     }]
 

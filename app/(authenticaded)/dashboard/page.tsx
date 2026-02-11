@@ -33,6 +33,10 @@ const DashboardPage = async ({searchParams}: DashboardPageProps) => {
         redirect('/auth');
     }
 
+    if (!session?.user?.clinic?.id) {
+        redirect('/clinic-form');
+    }
+
     const dashboardData = await getDashboard({
         from,
         to,

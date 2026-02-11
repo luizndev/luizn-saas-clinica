@@ -23,6 +23,7 @@ export const createClinic = async (name: string) => {
         userId: session.user.id,
         clinicId,
     });
-    redirect('/dashboard');
-    revalidatePath('/dashboard')
+    
+    revalidatePath('/', 'layout')
+    redirect('/dashboard'); 
 }

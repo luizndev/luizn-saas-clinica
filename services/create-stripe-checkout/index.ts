@@ -15,10 +15,6 @@ export const createStripeCheckout = actionClient.action(async () => {
         throw new Error("Usuário não autenticado")
     }
 
-    if(!session.user.clinic?.id) {
-        throw new Error("Usuário não possui uma clínica vinculada")
-    }
-
     if(!process.env.STRIPE_SECRET_KEY) {
         throw new Error("Chave secreta do Stripe não encontrada")
     }

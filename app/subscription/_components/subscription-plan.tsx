@@ -4,7 +4,6 @@
 import { Check, Loader2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useAction } from "next-safe-action/hooks"
-import { toast } from "sonner"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -19,21 +18,26 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { createStripeCheckout } from "@/services/create-stripe-checkout"
 
+export interface PlanConfig {
+  name: string
+  description: string
+  price: string
+  period: string
+  highlighted?: boolean
+  features: { text: string; included: boolean }[]
+}
+
 interface PricingCardProps {
   active?: boolean
   userEmail: string
+  plan: PlanConfig
 }
 
-const features = [
-  "Cadastro de até 3 médicos",
-  "Agendamentos ilimitados",
-  "Métricas básicas",
-  "Cadastro de pacientes",
-  "Confirmação manual",
-  "Suporte via e-mail",
-]
 
-export function PricingCard({ active = false, userEmail }: PricingCardProps) {
+
+import { toast } from "sonner"
+
+export function PricingCard({ active = false, userEmail, plan }: PricingCardProps) {
     const router = useRouter()
     const createCheckoutAction = useAction(createStripeCheckout, {
         onSuccess: async ({ data }) => {
@@ -57,7 +61,7 @@ export function PricingCard({ active = false, userEmail }: PricingCardProps) {
     <Card className="w-full max-w-xs rounded-2xl">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-2xl font-bold">Essential</CardTitle>
+          <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
           {active && (
             <Badge className="border-transparent bg-emerald-50 text-emerald-600 hover:bg-emerald-50">
               Atual
@@ -65,25 +69,25 @@ export function PricingCard({ active = false, userEmail }: PricingCardProps) {
           )}
         </div>
         <CardDescription>
-          Para profissionais autônomos ou pequenas clínicas
+          {plan.description}
         </CardDescription>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-0 pb-0">
         <div className="flex items-baseline gap-1 pb-4">
-          <span className="text-3xl font-bold text-foreground">R$59</span>
-          <span className="text-base text-muted-foreground">/ mês</span>
+          <span className="text-3xl font-bold text-foreground">{plan.price}</span>
+          <span className="text-base text-muted-foreground">/ {plan.period}</span>
         </div>
 
         <Separator />
 
         <div className="flex flex-col gap-3.5 py-6">
-          {features.map((feature) => (
-            <div key={feature} className="flex items-center gap-3">
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+          {plan.features.map((feature) => (
+            <div key={feature.text} className="flex items-center gap-3">
+              <div className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full ${feature.included ? 'bg-primary/10 text-primary' : 'bg-secondary text-muted-foreground'}`}>
                 <Check className="h-3 w-3" strokeWidth={3} />
               </div>
-              <span className="text-sm text-muted-foreground">{feature}</span>
+              <span className={`text-sm ${feature.included ? 'text-muted-foreground' : 'text-muted-foreground/50 line-through'}`}>{feature.text}</span>
             </div>
           ))}
         </div>

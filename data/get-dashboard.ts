@@ -17,6 +17,23 @@ interface Params {
 }
 
 export const getDashboard = async ({ from, to, session }: Params) => {
+  if (!session?.user?.clinic?.id) {
+    return {
+      totalRevenue: null,
+      totalAppointments: null,
+      totalPatients: null,
+      totalDoctors: null,
+      lastRevenue: null,
+      lastAppointments: null,
+      lastPatients: null,
+      lastDoctors: null,
+      topDoctors: [],
+      topSpecialties: [],
+      todayAppointments: [],
+      dailyAppointmentsData: [],
+    };
+  }
+
   const startDate = dayjs(from);
   const endDate = dayjs(to);
   const daysDiff = endDate.diff(startDate, 'days');
