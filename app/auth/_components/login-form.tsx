@@ -80,7 +80,7 @@ const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="m@example.com" {...field} />
+                    <Input type="email" placeholder="Insira seu email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
