@@ -52,7 +52,7 @@ const RegisterForm = () => {
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">Seja bem-vindo(a), a AgendaFacil!</CardTitle>
+        <CardTitle className="text-xl">Seja bem-vindo(a), a AgendaFácil!</CardTitle>
         <CardDescription>
           Preencha os campos abaixo para criar sua conta
         </CardDescription>

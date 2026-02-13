@@ -8,6 +8,8 @@ import * as schema from "../db/schema";
 import { usersToClinicsTable } from "../db/schema";
 
 export const auth = betterAuth({
+  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+  trustedOrigins: ["http://localhost:3000"],
   database: drizzleAdapter(db, {
     provider: "pg",
     schema,
@@ -33,6 +35,16 @@ export const auth = betterAuth({
       plan: {
         type: "string",
         fieldName: "plan",
+        required: false,
+      },
+      trialExpiresAt: {
+        type: "date",
+        fieldName: "trialExpiresAt",
+        required: false,
+      },
+      hasUsedTrial: {
+        type: "boolean",
+        fieldName: "hasUsedTrial",
         required: false,
       },
     },
@@ -62,6 +74,8 @@ export const auth = betterAuth({
         user: {
           ...user,
           plan: (user as any).plan || "free",
+          trialExpiresAt: (user as any).trialExpiresAt,
+          hasUsedTrial: (user as any).hasUsedTrial,
           clinic: clinic?.clinicId
             ? {
                 id: clinic?.clinicId,

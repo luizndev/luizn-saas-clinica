@@ -7,29 +7,13 @@ dayjs.extend(timezone)
 
 export const formatTime = (time: string | null | undefined) => {
     if (!time) return ""
-
-    const [hours, minutes, seconds] = time.split(":").map(Number)
-
-    const utcTime = dayjs
-        .utc()
-        .set("hour", hours)
-        .set("minute", minutes)
-        .set("second", seconds)
-
-    return utcTime.local().format("HH:mm")
+    const [hours, minutes] = time.split(":")
+    return `${hours}:${minutes}`
 }
+
 export const formatTime2 = (time: string | null | undefined) => {
     if (!time) return ""
-
-    const [hours, minutes, seconds] = time.split(":").map(Number)
-
-    const utcTime = dayjs
-        .utc()
-        .set("hour", hours)
-        .set("minute", minutes)
-        .set("second", seconds)
-
-    return utcTime.local().format("HH:mm:ss")
+    return time
 }
 
 export const formatCurrency = (amount: number) => {

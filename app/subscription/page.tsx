@@ -18,5 +18,5 @@ export default async function PlansPage({ active = false }: PlansPageProps) {
     redirect("/auth")
   }
 
-  return <PlansClient active={active} userEmail={session.user.email} />
+  return <PlansClient active={active} user={session.user} />
 }

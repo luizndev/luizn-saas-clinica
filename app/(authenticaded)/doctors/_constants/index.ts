@@ -48,11 +48,29 @@ export enum MedicalSpecialty {
   RADIOTERAPIA = "Radioterapia",
   REUMATOLOGIA = "Reumatologia",
   UROLOGIA = "Urologia",
+
+  // ODONTOLOGIA
+  ORTODONTIA = "Ortodontia",
+  IMPLANTODONTIA = "Implantodontia",
+  PROTESE_DENTARIA = "Prótese Dentária",
+  ENDODONTIA = "Endodontia",
+  PERIODONTIA = "Periodontia",
+  ODONTOPEDIATRIA = "Odontopediatria",
+  DENTISTICA = "Dentística",
+  CIRURGIA_BUCOMAXILOFACIAL = "Cirurgia e Traumatologia Bucomaxilofacial",
+  HARMONIZACAO_OROFACIAL = "Harmonização Orofacial",
+  DTM_DOR_OROFACIAL = "Disfunção Temporomandibular e Dor Orofacial",
+  RADIOLOGIA_ODONTOLOGICA = "Radiologia Odontológica e Imaginologia",
+  PATOLOGIA_BUCAL = "Patologia Bucal",
+  SAUDE_COLETIVA_ODONTO = "Saúde Coletiva",
+  ESTOMATOLOGIA = "Estomatologia",
+  ODONTOGERIATRIA = "Odontogeriatria",
+  ODONTOLOGIA_PNE = "Odontologia para Pacientes com Necessidades Especiais",
 }
 
 export const medicalSpecialties = Object.entries(MedicalSpecialty).map(
   ([key, value]) => ({
     value: MedicalSpecialty[key as keyof typeof MedicalSpecialty],
     label: value,
-  }),
+  })
 );

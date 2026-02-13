@@ -24,12 +24,21 @@ interface Patient {
   name: string
 }
 
+interface Appointment {
+  id: string
+  patientId: string
+  doctorId: string
+  date: Date
+  status: 'pending' | 'confirmed' | 'completed'
+}
+
 interface AddAppointmentButtonProps {
   doctors: Doctor[]
   patients: Patient[]
+  appointments: Appointment[]
 }
 
-export const AddAppointmentButton = ({ doctors, patients }: AddAppointmentButtonProps) => {
+export const AddAppointmentButton = ({ doctors, patients, appointments }: AddAppointmentButtonProps) => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
   return (
@@ -43,6 +52,7 @@ export const AddAppointmentButton = ({ doctors, patients }: AddAppointmentButton
         <UpsertAppointmentDialog
           doctors={doctors}
           patients={patients}
+          appointments={appointments}
           isOpen={dialogOpen}
           onSuccess={() => setDialogOpen(false)}
         />

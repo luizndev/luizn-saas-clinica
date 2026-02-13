@@ -238,6 +238,7 @@ export const AppointmentsTable = ({ appointments, doctors, patients }: Appointme
             appointment={editingAppointment}
             doctors={doctors}
             patients={patients}
+            appointments={appointments}
             isOpen={dialogOpen}
             onSuccess={() => setDialogOpen(false)}
           />

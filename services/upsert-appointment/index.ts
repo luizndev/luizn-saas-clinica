@@ -1,6 +1,6 @@
 "use server"
 
-import { eq } from "drizzle-orm"
+import { and, eq, ne } from "drizzle-orm"
 import { revalidatePath } from "next/cache"
 import { headers } from "next/headers"
 
@@ -24,6 +24,23 @@ export const upsertAppointment = actionClient.schema(upsertAppointmentSchema).ac
 
     const { clinic } = session.user
     const isNewAppointment = !data.id
+
+    // Check for conflicts
+    const [existingAppointment] = await db
+        .select()
+        .from(appointmentsTable)
+        .where(
+            and(
+                eq(appointmentsTable.doctorId, data.doctorId),
+                eq(appointmentsTable.date, data.date),
+                data.id ? ne(appointmentsTable.id, data.id) : undefined
+            )
+        )
+        .limit(1)
+
+    if (existingAppointment) {
+        throw new Error("Já existe um agendamento para este médico neste horário.")
+    }
 
     // Generate confirmation token for new pending appointments
     const confirmationToken = isNewAppointment && data.status === 'pending' 

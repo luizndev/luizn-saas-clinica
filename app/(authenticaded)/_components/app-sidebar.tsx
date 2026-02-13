@@ -69,22 +69,24 @@ export function AppSidebar({
     email: string
     image: string
     plan: string
+    trialExpiresAt?: string | Date | null
   }
   clinic: {
     id: string
     name: string
   } | null
 }) {
+    const isTrial = user.trialExpiresAt && new Date(user.trialExpiresAt) > new Date()
 
     const teams = (clinic && clinic.id) ? [{
         name: clinic.name,
         logo: Building2,
-        plan: user.plan,
+        plan: isTrial ? "Teste Grátis" : user.plan,
         id: clinic.id,
     }] : [{
         name: "Sem clínica",
         logo: Building2,
-        plan: user.plan,
+        plan: isTrial ? "Teste Grátis" : user.plan,
         id: "",
     }]
 

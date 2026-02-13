@@ -1,17 +1,9 @@
 "use client"
 
-import { DollarSign, Stethoscope, User } from 'lucide-react'
+import { Stethoscope } from 'lucide-react'
 import { useState } from 'react'
 
 import { PageActions, PageContainer, PageContent, PageDescription, PageHeader, PageHeaderContent, PageTitle } from '@/components/ui/page-container'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
 import { doctorsTable } from '@/db/schema'
 
 import AddDoctorButton from './add-doctor-button'
@@ -49,36 +41,18 @@ export default function DoctorsPageLayout({ doctors }: DoctorsPageLayoutProps) {
 
       <PageContent>
         {(!doctors || doctors.length === 0) ? (
-          <div className="rounded-md border">
-            <Table className='border-0'>
-              <TableHeader className='bg-primary/5'>
-                <TableRow>
-                  <TableHead className='text-[#5B7189] font-semibold'>
-                    <div className='flex items-center gap-2'>
-                      <User className='h-4 w-4' />
-                      Nome
-                    </div>
-                  </TableHead>
-                  <TableHead className='text-[#5B7189] font-semibold'>Especialidade</TableHead>
-                  <TableHead className='text-[#5B7189] font-semibold text-right'>
-                    <div className='flex items-center gap-2 justify-end'>
-                      <DollarSign className='h-4 w-4' />
-                      Valor
-                    </div>
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                <TableRow>
-                  <TableCell colSpan={3} className="text-center text-muted-foreground h-32">
-                    <div className='flex flex-col items-center gap-2'>
-                      <Stethoscope className='h-8 w-8 text-muted-foreground/50' />
-                      <p>Nenhum médico cadastrado</p>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+          <div className="flex flex-col items-center justify-center min-h-[400px] rounded-xl border-2 border-dashed bg-muted/30 p-8 text-center animate-in fade-in zoom-in duration-500">
+            <div className="relative mb-4">
+              <div className="absolute -inset-1 rounded-full bg-primary/20 blur-xl" />
+              <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-primary/10 transition-transform hover:scale-110">
+                <Stethoscope className="h-10 w-10 text-primary" />
+              </div>
+            </div>
+            <h3 className="mb-2 text-2xl font-bold tracking-tight">Nenhum médico encontrado</h3>
+            <p className="mb-8 max-w-sm text-sm text-muted-foreground">
+              Sua lista de médicos está vazia. Adicione profissionais para começar a gerenciar os agendamentos da sua clínica.
+            </p>
+            <AddDoctorButton />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

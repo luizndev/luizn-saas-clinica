@@ -13,17 +13,17 @@ export default async function LandingPage() {
     headers: await headers(),
   })
   return (
-    <div className="min-h-screen bg-linear-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-muted/50 to-background">
       {/* Header */}
-      <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
+      <header className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Image src="/agendafacil-color.svg" alt="AgendaFácil" width={180} height={40} />
+            <Image src="/agendafacil-color.svg" alt="AgendaFácil" width={180} height={40} className="dark:brightness-0 dark:invert" />
           </div>
           <nav className="hidden md:flex items-center gap-6">
-            <a href="#beneficios" className="text-gray-600 hover:text-primary transition">Benefícios</a>
-            <a href="#planos" className="text-gray-600 hover:text-primary transition">Planos</a>
-            <a href="#depoimentos" className="text-gray-600 hover:text-primary transition">Depoimentos</a>
+            <a href="#beneficios" className="text-muted-foreground hover:text-primary transition">Benefícios</a>
+            <a href="#planos" className="text-muted-foreground hover:text-primary transition">Planos</a>
+            <a href="#depoimentos" className="text-muted-foreground hover:text-primary transition">Depoimentos</a>
             {session ? (
               <Link href="/dashboard">
                 <Button variant="outline"><LayoutDashboard />Ir para Dashboard</Button>
@@ -48,16 +48,16 @@ export default async function LandingPage() {
         </div>
         
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6">
             Transforme a gestão da sua clínica <span className="text-primary">em minutos</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-8">
+          <p className="text-xl md:text-2xl text-muted-foreground mb-8">
             A solução completa para agendamentos, gestão de pacientes e métricas que realmente importam
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/auth">
               <Button size="lg" className="text-lg px-8 py-6">
-                Começar Já
+                Teste Grátis Agora
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -72,13 +72,13 @@ export default async function LandingPage() {
       </section>
 
       {/* Benefícios */}
-      <section id="beneficios" className="bg-white py-20">
+      <section id="beneficios" className="bg-background py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-foreground mb-4">
               Tudo que você precisa para gerenciar sua clínica
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-muted-foreground">
               Ferramentas simples e poderosas para o dia a dia
             </p>
           </div>
@@ -90,7 +90,7 @@ export default async function LandingPage() {
                 <CardTitle>Agendamento Ilimitado</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Agende quantas consultas precisar, sem limites ou taxas extras
                 </p>
               </CardContent>
@@ -102,7 +102,7 @@ export default async function LandingPage() {
                 <CardTitle>Cadastro de Pacientes</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Mantenha todos os dados dos seus pacientes organizados e seguros
                 </p>
               </CardContent>
@@ -114,7 +114,7 @@ export default async function LandingPage() {
                 <CardTitle>Confirmação Automática</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Envie confirmações por e-mail e SMS automaticamente
                 </p>
               </CardContent>
@@ -126,7 +126,7 @@ export default async function LandingPage() {
                 <CardTitle>Métricas Inteligentes</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Acompanhe o desempenho da sua clínica com relatórios claros
                 </p>
               </CardContent>
@@ -138,7 +138,7 @@ export default async function LandingPage() {
                 <CardTitle>Exportação de Dados</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Exporte seus dados em CSV ou relatórios personalizados
                 </p>
               </CardContent>
@@ -150,7 +150,7 @@ export default async function LandingPage() {
                 <CardTitle>Suporte Dedicado</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   Nossa equipe está pronta para ajudar quando você precisar
                 </p>
               </CardContent>
@@ -160,13 +160,13 @@ export default async function LandingPage() {
       </section>
 
       {/* Planos */}
-      <section id="planos" className="py-20 bg-linear-to-b from-blue-50 to-white">
+      <section id="planos" className="py-20 bg-linear-to-b from-muted/50 to-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-foreground mb-4">
               Planos que crescem com você
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-muted-foreground">
               Escolha o plano ideal para sua clínica
             </p>
           </div>
@@ -178,41 +178,41 @@ export default async function LandingPage() {
                 <CardTitle className="text-2xl">Essencial</CardTitle>
                 <CardDescription>Perfeito para começar</CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold text-gray-900">R$ 59</span>
-                  <span className="text-gray-600">/mês</span>
+                  <span className="text-4xl font-bold text-foreground">R$ 59</span>
+                  <span className="text-muted-foreground">/mês</span>
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span><strong>1 clínica</strong></span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>Até 3 médicos</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>Agendamentos ilimitados</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>Pacientes ilimitados</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>Métricas básicas</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>Confirmação manual</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>Suporte via e-mail</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>Exportação CSV</span>
                 </div>
               </CardContent>
@@ -234,41 +234,41 @@ export default async function LandingPage() {
                 <CardTitle className="text-2xl">Professional</CardTitle>
                 <CardDescription>Para clínicas em crescimento</CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold text-gray-900">R$ 129</span>
-                  <span className="text-gray-600">/mês</span>
+                  <span className="text-4xl font-bold text-foreground">R$ 129</span>
+                  <span className="text-muted-foreground">/mês</span>
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span className="font-semibold">Até 3 clínicas</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span className="font-semibold">Médicos ilimitados</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>Agendamentos ilimitados</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span>Pacientes ilimitados</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span className="font-semibold">Métricas avançadas</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span className="font-semibold">Confirmação automática (E-mail + SMS)</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span className="font-semibold">Suporte prioritário</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-green-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span className="font-semibold">Relatórios personalizados</span>
                 </div>
               </CardContent>
@@ -282,16 +282,16 @@ export default async function LandingPage() {
             </Card>
 
             {/* Plano Enterprise */}
-            <Card className="border-2 border-purple-500 shadow-xl relative bg-linear-to-br from-purple-50 to-white">
-              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-linear-to-r from-purple-600 to-purple-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+            <Card className="border-2 border-primary/20 shadow-xl relative bg-linear-to-br from-primary/5 to-background">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-linear-to-r from-primary to-primary/80 text-white px-4 py-1 rounded-full text-sm font-semibold">
                 Completo
               </div>
               <CardHeader>
                 <CardTitle className="text-2xl">Enterprise</CardTitle>
                 <CardDescription>Solução completa e escalável</CardDescription>
                 <div className="mt-4">
-                  <span className="text-4xl font-bold text-gray-900">R$ 299</span>
-                  <span className="text-gray-600">/mês</span>
+                  <span className="text-4xl font-bold text-foreground">R$ 299</span>
+                  <span className="text-muted-foreground">/mês</span>
                 </div>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -324,13 +324,13 @@ export default async function LandingPage() {
                   <span className="font-semibold">Gerente de conta dedicado</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Check className="h-5 w-5 text-purple-600 shrink-0 mt-0.5" />
+                  <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                   <span className="font-semibold">Suporte 24/7</span>
                 </div>
               </CardContent>
               <CardFooter>
                 <Link href="/auth" className="w-full">
-                  <Button className="w-full bg-linear-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600" size="lg">
+                  <Button className="w-full bg-linear-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70" size="lg">
                     Falar com Vendas
                   </Button>
                 </Link>
@@ -341,13 +341,13 @@ export default async function LandingPage() {
       </section>
 
       {/* Depoimentos */}
-      <section id="depoimentos" className="py-20 bg-white">
+      <section id="depoimentos" className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-foreground mb-4">
               O que nossos clientes dizem
             </h2>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-muted-foreground">
               Clínicas que confiam no AgendaFácil
             </p>
           </div>
@@ -366,8 +366,8 @@ export default async function LandingPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 italic">
-                  "O AgendaFácil transformou a forma como gerenciamos nossa clínica. Economizamos horas toda semana!"
+                <p className="text-muted-foreground italic">
+                  &quot;O AgendaFácil transformou a forma como gerenciamos nossa clínica. Economizamos horas toda semana!&quot;
                 </p>
               </CardContent>
             </Card>
@@ -385,8 +385,8 @@ export default async function LandingPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 italic">
-                  "Interface simples e intuitiva. Minha equipe aprendeu a usar em minutos. Recomendo!"
+                <p className="text-muted-foreground italic">
+                  &quot;Interface simples e intuitiva. Minha equipe aprendeu a usar em minutos. Recomendo!&quot;
                 </p>
               </CardContent>
             </Card>
@@ -404,8 +404,8 @@ export default async function LandingPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 italic">
-                  "As confirmações automáticas reduziram drasticamente as faltas. Excelente investimento!"
+                <p className="text-muted-foreground italic">
+                  &quot;As confirmações automáticas reduziram drasticamente as faltas. Excelente investimento!&quot;
                 </p>
               </CardContent>
             </Card>
@@ -414,18 +414,18 @@ export default async function LandingPage() {
       </section>
 
       {/* CTA Final */}
-      <section className="py-20 bg-linear-to-r from-primary to-blue-600 text-white">
+      <section className="py-20 bg-linear-to-r from-primary to-primary/80 text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Pronto para organizar sua clínica?
           </h2>
-          <p className="text-xl md:text-2xl mb-8 text-blue-100">
+          <p className="text-xl md:text-2xl mb-8 opacity-90">
             Economize tempo, organize melhor e foque no que realmente importa: seus pacientes
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link href="/auth">
               <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
-                Comece Agora
+                Teste Grátis Agora
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -437,13 +437,13 @@ export default async function LandingPage() {
       </section>
 
       {/* Newsletter */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+            <h3 className="text-2xl font-bold text-foreground mb-4">
               Fique por dentro das novidades
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-muted-foreground mb-6">
               Receba dicas, atualizações e conteúdo exclusivo sobre gestão de clínicas
             </p>
             <form className="flex flex-col sm:flex-row gap-3">
@@ -461,39 +461,39 @@ export default async function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-12">
+      <footer className="bg-muted text-muted-foreground py-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Image src="/agendafacil-white.svg" alt="AgendaFácil" width={180} height={32} />
+                <Image src="/agendafacil-color.svg" alt="AgendaFácil" width={180} height={32} className="dark:brightness-0 dark:invert" />
               </div>
               <p className="text-sm">
                 Organize sua clínica de forma simples e eficiente
               </p>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Produto</h4>
+              <h4 className="font-semibold text-foreground mb-4">Produto</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#beneficios" className="hover:text-white transition">Benefícios</a></li>
-                <li><a href="#planos" className="hover:text-white transition">Planos</a></li>
-                <li><a href="#" className="hover:text-white transition">Demonstração</a></li>
+                <li><a href="#beneficios" className="hover:text-foreground transition">Benefícios</a></li>
+                <li><a href="#planos" className="hover:text-foreground transition">Planos</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Demonstração</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Empresa</h4>
+              <h4 className="font-semibold text-foreground mb-4">Empresa</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition">Sobre</a></li>
-                <li><a href="#" className="hover:text-white transition">Blog</a></li>
-                <li><a href="#" className="hover:text-white transition">Contato</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Sobre</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Blog</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Contato</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-4">Suporte</h4>
+              <h4 className="font-semibold text-foreground mb-4">Suporte</h4>
               <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-white transition">Central de Ajuda</a></li>
-                <li><a href="#" className="hover:text-white transition">Termos de Uso</a></li>
-                <li><a href="#" className="hover:text-white transition">Privacidade</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Central de Ajuda</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Termos de Uso</a></li>
+                <li><a href="#" className="hover:text-foreground transition">Privacidade</a></li>
               </ul>
             </div>
           </div>

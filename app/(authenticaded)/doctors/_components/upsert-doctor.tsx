@@ -1,14 +1,15 @@
 "use client"
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
+import { Check, ChevronsUpDown, Loader2 } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { NumericFormat } from 'react-number-format'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
 import {
   DialogContent,
   DialogDescription,
@@ -24,6 +25,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
@@ -34,6 +36,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { doctorsTable } from '@/db/schema'
+import { cn } from '@/lib/utils'
 import { upsertDoctor } from '@/services/upsert-doctor'
 import { formatTime2 } from '@/utils/format'
 
@@ -75,6 +78,7 @@ interface UpsertDoctorFormProps {
 }
 
 const UpsertDoctor = ({ doctor, onSuccess, onError, isOpen }: UpsertDoctorFormProps) => {
+  const [specialtyOpen, setSpecialtyOpen] = useState(false)
   const form = useForm<z.infer<typeof formSchema>>({
     shouldUnregister: true,
     resolver: zodResolver(formSchema),
@@ -158,28 +162,59 @@ const UpsertDoctor = ({ doctor, onSuccess, onError, isOpen }: UpsertDoctorFormPr
                         control={form.control}
                         name="specialty"
                         render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="flex flex-col">
                                 <FormLabel>Especialidade</FormLabel>
-                                <Select
-                                    onValueChange={field.onChange}
-                                    defaultValue={field.value}
-                                >
-                                    <FormControl>
-                                        <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Selecione uma especialidade" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {medicalSpecialties.map((specialty) => (
-                                            <SelectItem
-                                                key={specialty.value}
-                                                value={specialty.value}
+                                <Popover open={specialtyOpen} onOpenChange={setSpecialtyOpen}>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant="outline"
+                                                role="combobox"
+                                                className={cn(
+                                                    "w-full justify-between",
+                                                    !field.value && "text-muted-foreground"
+                                                )}
                                             >
-                                                {specialty.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                                {field.value
+                                                    ? medicalSpecialties.find(
+                                                        (specialty) => specialty.value === field.value
+                                                    )?.label
+                                                    : "Selecione uma especialidade"}
+                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-full p-0">
+                                        <Command>
+                                            <CommandInput placeholder="Pesquisar especialidade..." />
+                                            <CommandList>
+                                                <CommandEmpty>Nenhuma especialidade encontrada.</CommandEmpty>
+                                                <CommandGroup>
+                                                    {medicalSpecialties.map((specialty) => (
+                                                        <CommandItem
+                                                            key={specialty.value}
+                                                            value={specialty.label}
+                                                            onSelect={() => {
+                                                                form.setValue('specialty', specialty.value)
+                                                                setSpecialtyOpen(false)
+                                                            }}
+                                                        >
+                                                            <Check
+                                                                className={cn(
+                                                                    "mr-2 h-4 w-4",
+                                                                    specialty.value === field.value
+                                                                        ? "opacity-100"
+                                                                        : "opacity-0"
+                                                                )}
+                                                            />
+                                                            {specialty.label}
+                                                        </CommandItem>
+                                                    ))}
+                                                </CommandGroup>
+                                            </CommandList>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
                                 <FormMessage />
                             </FormItem>
                         )}

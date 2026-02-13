@@ -47,7 +47,7 @@ const LoginForm = () => {
   return (
     <Card>
       <CardHeader className="text-center">
-        <CardTitle className="text-xl">Bem-vindo de volta</CardTitle>
+        <CardTitle className="text-xl">Seja bem-vindo(a), a AgendaFácil!</CardTitle>
         <CardDescription>
           Faça login na sua conta
         </CardDescription>

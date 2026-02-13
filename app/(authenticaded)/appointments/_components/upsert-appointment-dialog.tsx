@@ -1,12 +1,18 @@
 "use client"
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import dayjs from 'dayjs'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
 import { Check, ChevronsUpDown, Loader2 } from 'lucide-react'
 import { useAction } from 'next-safe-action/hooks'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 import { Button } from '@/components/ui/button'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command'
@@ -71,6 +77,7 @@ interface UpsertAppointmentDialogProps {
   appointment?: Appointment
   doctors: Doctor[]
   patients: Patient[]
+  appointments: Appointment[]
   onSuccess?: () => void
   onError?: (error: unknown) => void
   isOpen: boolean
@@ -80,6 +87,7 @@ export const UpsertAppointmentDialog = ({
   appointment, 
   doctors, 
   patients, 
+  appointments,
   onSuccess, 
   onError, 
   isOpen 
@@ -103,8 +111,10 @@ export const UpsertAppointmentDialog = ({
     return doctors.find(d => d.id === selectedDoctorId) || null
   }, [doctors, selectedDoctorId])
 
-  const availableTimeSlots = useMemo(() => {
-    if (!selectedDoctor) return undefined
+  const selectedDate = form.watch('date')
+
+  const { availableTimeSlots, bookedSlots } = useMemo(() => {
+    if (!selectedDoctor) return { availableTimeSlots: undefined, bookedSlots: [] }
 
     const slots: string[] = []
     const fromTime = selectedDoctor.availableFromTime
@@ -113,28 +123,35 @@ export const UpsertAppointmentDialog = ({
     const [fromHour, fromMinute] = fromTime.split(':').map(Number)
     const [toHour, toMinute] = toTime.split(':').map(Number)
 
-    const utcDate = new Date()
-    utcDate.setUTCHours(fromHour, fromMinute, 0, 0)
-    
-    const endUtcDate = new Date()
-    endUtcDate.setUTCHours(toHour, toMinute, 0, 0)
-    let currentHour = utcDate.getHours()
-    let currentMinute = utcDate.getMinutes()
-    const endHour = endUtcDate.getHours()
-    const endMinute = endUtcDate.getMinutes()
+    const refDate = dayjs().startOf('day')
+    let current = refDate.hour(fromHour).minute(fromMinute)
+    const end = refDate.hour(toHour).minute(toMinute)
 
-    while (currentHour < endHour || (currentHour === endHour && currentMinute < endMinute)) {
-      slots.push(`${String(currentHour).padStart(2, '0')}:${String(currentMinute).padStart(2, '0')}`)
-      
-      currentMinute += 30
-      if (currentMinute >= 60) {
-        currentMinute = 0
-        currentHour += 1
-      }
+    while (current.isBefore(end)) {
+      slots.push(current.format('HH:mm'))
+      current = current.add(30, 'minute')
     }
 
-    return slots
-  }, [selectedDoctor])
+    let busy: string[] = []
+
+    if (selectedDate) {
+      busy = appointments
+        .filter(app => 
+          app.doctorId === selectedDoctor.id && 
+          dayjs(app.date).isSame(selectedDate, 'day') &&
+          app.id !== appointment?.id
+        )
+        .map(app =>
+          dayjs(app.date)
+            .local()
+            .add(3, 'hour')
+            .format('HH:mm')
+        )
+    }
+
+
+    return { availableTimeSlots: slots, bookedSlots: busy }
+  }, [selectedDoctor, selectedDate, appointments, appointment])
 
   useEffect(() => {
     if (isOpen) {
@@ -153,10 +170,11 @@ export const UpsertAppointmentDialog = ({
       onSuccess?.()
       toast.success(appointment ? 'Agendamento atualizado com sucesso' : 'Agendamento criado com sucesso')
     },
-    onError(error) {
-      console.log(error)
-      onError?.(error)
-      toast.error('Erro ao salvar agendamento')
+    onError(result) {
+      console.log(result.error)
+      onError?.(result.error)
+      const errorMessage = (result.error as any).serverError || 'Erro ao salvar agendamento'
+      toast.error(errorMessage)
     },
   })
 
@@ -327,6 +345,7 @@ export const UpsertAppointmentDialog = ({
                     date={field.value}
                     onDateChange={field.onChange}
                     availableSlots={availableTimeSlots}
+                    busySlots={bookedSlots}
                     availableWeekDays={
                       selectedDoctor
                         ? {

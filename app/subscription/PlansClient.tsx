@@ -4,22 +4,47 @@ import {
   ArrowRight,
   BarChart3,
   CalendarCheck,
+  Check,
   Clock,
+  Loader2,
   Lock,
   ShieldCheck,
   Users,
   Zap,
 } from "lucide-react"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { useAction } from "next-safe-action/hooks"
 import { useState } from "react"
+import { toast } from "sonner"
 
+import { ModeToggle } from "@/components/mode-toggle"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+import { startFreeTrial } from "@/services/start-free-trial"
 
 import { PricingCard } from "./_components/subscription-plan"
 import { type PlanConfig } from "./_components/subscription-plan"
+
+interface User {
+  id: string
+  email: string
+  plan: string
+  hasUsedTrial?: boolean | null
+}
+
 interface PlansClientProps {
   active?: boolean
-  userEmail: string
+  user: User
 }
 
 const essentialPlan: PlanConfig = {
@@ -29,7 +54,7 @@ const essentialPlan: PlanConfig = {
   period: "mes",
   highlighted: true,
   features: [
-    { text: "Cadastro de ate 3 medicos", included: true },
+    { text: "Cadastro de medicos ilimitados", included: true },
     { text: "Agendamentos ilimitados", included: true },
     { text: "Metricas basicas", included: true },
     { text: "Cadastro de pacientes", included: true },
@@ -47,7 +72,7 @@ const benefits = [
   },
   {
     icon: Users,
-    title: "Mais de 2.000 clinicas confiam",
+    title: "Mais de 10+ clinicas confiam",
     description:
       "Profissionais de saude em todo o Brasil ja transformaram sua rotina com nossa plataforma.",
   },
@@ -59,18 +84,34 @@ const benefits = [
   },
 ]
 
-export default function PlansClient({ active = false, userEmail }: PlansClientProps) {
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">(
+export default function PlansClient({ active = false, user }: PlansClientProps) {
+  const [billingCycle] = useState<"monthly" | "yearly">(
     "monthly"
   )
+
+  const router = useRouter()
+  const startTrialAction = useAction(startFreeTrial, {
+    onSuccess: () => {
+      toast.success("Teste gratis iniciado com sucesso!")
+      router.push("/dashboard")
+    },
+    onError: ({ error }) => {
+      toast.error(error.serverError || "Erro ao iniciar teste gratis")
+    }
+  })
 
   const currentPrice =
     billingCycle === "yearly"
       ? `R$${Math.round(59 * 0.8)}`
       : essentialPlan.price
 
+  const showTrial = !user.hasUsedTrial && user.plan === "free"
+
   return (
-    <div className="flex min-h-screen space-y-4 flex-col items-center bg-background px-4 py-12 md:py-20">
+    <div className="flex min-h-screen space-y-4 flex-col items-center bg-background px-4 py-12 md:py-20 relative">
+      <div className="absolute top-4 right-4 z-50">
+        <ModeToggle />
+      </div>
       {/* Banner Bloqueio */}
       <Image src="/agendafacil-color.svg" alt="Banner Bloqueio" width={280} height={100} className="mb-10" />
       <div className="mb-10 flex w-full max-w-2xl items-center gap-3 rounded-xl border border-amber-200 bg-amber-50 px-5 py-4">
@@ -141,12 +182,64 @@ export default function PlansClient({ active = false, userEmail }: PlansClientPr
         </button>
       </div> */}
 
-      {/* Card Plano */}
-      <div className="mt-12 flex w-full max-w-sm justify-center">
+      {/* Cards de Plano */}
+      <div className="mt-12 flex w-full max-w-4xl flex-col items-center justify-center gap-8 md:flex-row md:items-stretch">
+        {showTrial && (
+           <Card className="w-full max-w-sm rounded-2xl border-2 border-primary/20 bg-accent/5 shadow-lg">
+           <CardHeader className="pb-4">
+             <div className="flex items-center justify-between">
+               <CardTitle className="text-2xl font-bold text-primary">Teste Gratis</CardTitle>
+               <Badge className="bg-primary text-primary-foreground">
+                 14 DIAS
+               </Badge>
+             </div>
+             <CardDescription>
+               Experimente todos os recursos do plano Essential sem pagar nada por 14 dias.
+             </CardDescription>
+           </CardHeader>
+   
+           <CardContent className="flex flex-col gap-0 pb-0">
+             <div className="flex items-baseline gap-1 pb-4">
+               <span className="text-3xl font-bold text-foreground">R$0</span>
+               <span className="text-base text-muted-foreground">/ 14 dias</span>
+             </div>
+   
+             <Separator />
+   
+             <div className="flex flex-col gap-3.5 py-6">
+               {essentialPlan.features.map((feature) => (
+                 <div key={feature.text} className="flex items-center gap-3">
+                   <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                     <Check className="h-3 w-3" strokeWidth={3} />
+                   </div>
+                   <span className="text-sm text-muted-foreground">{feature.text}</span>
+                 </div>
+               ))}
+             </div>
+   
+             <Separator />
+           </CardContent>
+   
+           <CardFooter className="pt-6">
+            <Button
+                 className="w-full rounded-lg bg-primary text-primary-foreground hover:bg-primary/90"
+                 onClick={() => startTrialAction.execute()}
+                 disabled={startTrialAction.isPending}
+             >
+             {startTrialAction.isPending ? (
+                 <Loader2 className="h-4 w-4 animate-spin" />
+             ) : (
+                 "Iniciar Teste Gratis"
+             )}
+             </Button>
+           </CardFooter>
+         </Card>
+        )}
+
         <PricingCard
           plan={{ ...essentialPlan, price: currentPrice }}
           active={active}
-          userEmail={userEmail}
+          userEmail={user.email}
         />
       </div>
 

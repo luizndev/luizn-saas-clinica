@@ -1,17 +1,21 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Geist_Mono, Manrope } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 
 import { AuthGuard } from "@/components/auth-guard";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { auth } from "@/lib/auth";
 
-const manrope = Manrope({
-  variable: "--font-manrope",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -29,16 +33,23 @@ export default async function RootLayout({
   const pathname = headersList.get("x-pathname") || "/";
 
   return (
-    <html lang="pt-br">
+    <html lang="pt-br" suppressHydrationWarning>
       <body
-        className={`${manrope.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
-        <AuthGuard currentPath={pathname}>
-          <NuqsAdapter>
-            {children}
-          </NuqsAdapter>
-        </AuthGuard>
-        <Toaster richColors theme="light" />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthGuard currentPath={pathname}>
+            <NuqsAdapter>
+              {children}
+            </NuqsAdapter>
+          </AuthGuard>
+          <Toaster richColors theme="light" />
+        </ThemeProvider>
       </body>
     </html>
   );

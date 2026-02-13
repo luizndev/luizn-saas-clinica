@@ -25,7 +25,7 @@ export const StatusCard = ({
     doctorsChange
 }: StatusCardProps) => {
     return (
-        <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             <Card>
                 <CardHeader className="flex flex-row items-center justify-start space-y-0">
                     <div className="flex flex-row items-center justify-center bg-primary/10 p-2 rounded-lg ">

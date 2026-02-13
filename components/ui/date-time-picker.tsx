@@ -25,29 +25,48 @@ interface DateTimePickerProps {
   date?: Date
   onDateChange: (date: Date | undefined) => void
   availableSlots?: string[]
+  busySlots?: string[]
   availableWeekDays?: { from: number; to: number }
 }
 
-export function DateTimePicker({ date, onDateChange, availableSlots, availableWeekDays }: DateTimePickerProps) {
+export function DateTimePicker({ date, onDateChange, availableSlots, busySlots = [], availableWeekDays }: DateTimePickerProps) {
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(date)
   const [selectedTime, setSelectedTime] = React.useState<string>(
     date && date instanceof Date && !isNaN(date.getTime()) ? format(date, "HH:mm") : ""
   )
 
   const timeSlots = React.useMemo(() => {
-    if (availableSlots && availableSlots.length > 0) {
-      return availableSlots
+    const applyMinus3 = (time: string) => {
+      const [hour, minute] = time.split(':').map(Number)
+      const date = new Date()
+      date.setHours(hour)
+      date.setMinutes(minute)
+      date.setSeconds(0)
+
+      // Subtrai 3 horas
+      date.setHours(date.getHours() - 3)
+
+      const newHour = String(date.getHours()).padStart(2, '0')
+      const newMinute = String(date.getMinutes()).padStart(2, '0')
+
+      return `${newHour}:${newMinute}`
     }
-    
-    const slots: string[] = []
-    for (let hour = 8; hour <= 18; hour++) {
-      slots.push(`${String(hour).padStart(2, '0')}:00`)
-      if (hour < 18) {
-        slots.push(`${String(hour).padStart(2, '0')}:30`)
-      }
-    }
-    return slots
-  }, [availableSlots])
+
+    const allSlots = availableSlots && availableSlots.length > 0 
+      ? availableSlots 
+      : Array.from({ length: 21 }, (_, i) => {
+          const h = 8 + Math.floor(i / 2)
+          const m = i % 2 === 0 ? '00' : '30'
+          return `${String(h).padStart(2, '0')}:${m}`
+        })
+
+    return allSlots.map(slot => ({
+      time: applyMinus3(slot),
+      original: slot,
+      isBusy: busySlots.includes(slot)
+    }))
+  }, [availableSlots, busySlots])
+
 
   React.useEffect(() => {
     if (date && date instanceof Date && !isNaN(date.getTime())) {
@@ -63,10 +82,9 @@ export function DateTimePicker({ date, onDateChange, availableSlots, availableWe
       return
     }
 
-    const timeToUse = selectedTime || timeSlots[0] || "09:00"
+    const timeToUse = selectedTime || timeSlots[0]?.original || "09:00"
     const [hours, minutes] = timeToUse.split(':').map(Number)
     
-    // Create date with local time - JavaScript will handle UTC conversion
     const localDate = new Date(newDate)
     localDate.setHours(hours, minutes, 0, 0)
     
@@ -90,6 +108,10 @@ export function DateTimePicker({ date, onDateChange, availableSlots, availableWe
   }
 
   const isDateDisabled = (date: Date) => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    if (date < today) return true
+    
     if (!availableWeekDays) return false
     
     const dayOfWeek = date.getDay()
@@ -140,8 +162,12 @@ export function DateTimePicker({ date, onDateChange, availableSlots, availableWe
         </SelectTrigger>
         <SelectContent>
           {timeSlots.map((slot) => (
-            <SelectItem key={slot} value={slot}>
-              {slot}
+            <SelectItem 
+              key={slot.original} 
+              value={slot.original}
+              disabled={slot.isBusy}
+            >
+              {slot.time}
             </SelectItem>
           ))}
         </SelectContent>
