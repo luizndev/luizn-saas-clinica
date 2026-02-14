@@ -29,7 +29,7 @@ export default async function Layout({ children }: { children: React.ReactNode }
 
   const user = {
     id: session.user.id,
-    name: session.user.name || "User",
+    name: session.user.name || "",
     email: session.user.email || "",
     image: session.user.image || "",
     plan: session.user.plan || "",
