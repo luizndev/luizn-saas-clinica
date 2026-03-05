@@ -14,7 +14,7 @@ const ignoredDirectories = [
   "coverage",
 ];
 
-// Função recursiva para percorrer diretórios
+// Função recursiva para percorrer diretórios sss
 function walk(dir, fileList = []) {
   const files = fs.readdirSync(dir);
 
